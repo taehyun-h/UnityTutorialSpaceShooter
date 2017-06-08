@@ -49,8 +49,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\02. Scripts\BulletCtrl.cs" />
      <Compile Include="Assets\02. Scripts\FollowCam.cs" />
      <Compile Include="Assets\02. Scripts\PlayerCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\WallCtrl.cs" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorLight.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
