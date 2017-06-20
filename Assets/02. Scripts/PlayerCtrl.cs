@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 [System.Serializable]
@@ -24,12 +25,16 @@ public class PlayerCtrl : MonoBehaviour {
 	public Animation _animation;
 
 	public int hp = 100;
+	private int initHp;
+	public Image imgHpbar;
 
 	public delegate void PlayerDieHandler();
 	public static event PlayerDieHandler OnPlayerDie;
 
 	// Use this for initialization
 	void Start () {
+		initHp = hp;
+
 		tr = GetComponent <Transform>();
 
 		_animation = GetComponentInChildren<Animation>();
@@ -79,6 +84,7 @@ public class PlayerCtrl : MonoBehaviour {
 		if (coll.tag == "PUNCH")
 		{
 			hp -= 10;
+			imgHpbar.fillAmount = (float)hp / (float)initHp;
 			Debug.Log("Player HP = " + hp.ToString());
 
 			if (hp <= 0)

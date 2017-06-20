@@ -29,12 +29,16 @@ public class MonsterCtrl : MonoBehaviour
 
 	private int hp = 100;
 
+	private GameUI gameUI;
+
 	void Start ()
 	{
 		monsterTr = this.gameObject.GetComponent<Transform>();
 		playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
 		nvAgent = this.gameObject.GetComponent<NavMeshAgent>();
 		animator = this.gameObject.GetComponent<Animator>();
+
+		gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
 
 		//nvAgent.destination = playerTr.position;
 
@@ -136,6 +140,8 @@ public class MonsterCtrl : MonoBehaviour
 		{
 			coll.enabled = false;
 		}
+
+		gameUI.DispScore(50);
 	}
 
 	void CreateBloodEffect(Vector3 pos)
