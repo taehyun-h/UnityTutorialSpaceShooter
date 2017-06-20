@@ -23,6 +23,11 @@ public class PlayerCtrl : MonoBehaviour {
 	public Anim anim;
 	public Animation _animation;
 
+	public int hp = 100;
+
+	public delegate void PlayerDieHandler();
+	public static event PlayerDieHandler OnPlayerDie;
+
 	// Use this for initialization
 	void Start () {
 		tr = GetComponent <Transform>();
@@ -67,5 +72,35 @@ public class PlayerCtrl : MonoBehaviour {
 		{
 			_animation.CrossFade(anim.idle.name, 0.3f);
 		}
+	}
+
+	void OnTriggerEnter(Collider coll)
+	{
+		if (coll.tag == "PUNCH")
+		{
+			hp -= 10;
+			Debug.Log("Player HP = " + hp.ToString());
+
+			if (hp <= 0)
+			{
+				PlayerDie();
+			}
+		}
+	}
+
+	void PlayerDie()
+	{
+		Debug.Log("Player Die !!");
+
+/*
+		GameObject[] monsters = GameObject.FindGameObjectsWithTag("MONSTER");
+
+		foreach (GameObject monster in monsters)
+		{
+			monster.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);
+		}
+*/
+
+		OnPlayerDie();
 	}
 }
