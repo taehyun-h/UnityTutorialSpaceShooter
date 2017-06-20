@@ -31,7 +31,7 @@ public class MonsterCtrl : MonoBehaviour
 
 	private GameUI gameUI;
 
-	void Start ()
+	void Awake ()
 	{
 		monsterTr = this.gameObject.GetComponent<Transform>();
 		playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -41,14 +41,14 @@ public class MonsterCtrl : MonoBehaviour
 		gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
 
 		//nvAgent.destination = playerTr.position;
-
-		StartCoroutine(this.CheckMonsterState());
-		StartCoroutine(this.MonsterAction());
 	}
 
 	void OnEnable()
 	{
 		PlayerCtrl.OnPlayerDie += this.OnPlayerDie;
+
+		StartCoroutine(this.CheckMonsterState());
+		StartCoroutine(this.MonsterAction());
 	}
 
 	void OnDisable()
@@ -127,6 +127,8 @@ public class MonsterCtrl : MonoBehaviour
 
 	void MonsterDie()
 	{
+		gameObject.tag = "Untagged";
+
 		StopAllCoroutines();
 
 		isDie = true;
@@ -142,6 +144,8 @@ public class MonsterCtrl : MonoBehaviour
 		}
 
 		gameUI.DispScore(50);
+
+		StartCoroutine(this.PushObjectPool());
 	}
 
 	void CreateBloodEffect(Vector3 pos)
@@ -162,5 +166,24 @@ public class MonsterCtrl : MonoBehaviour
 		StopAllCoroutines();
 		nvAgent.isStopped = true;
 		animator.SetTrigger("IsPlayerDie");
+	}
+
+	IEnumerator PushObjectPool()
+	{
+		yield return new WaitForSeconds(3.0f);
+
+		isDie = false;
+		hp = 100;
+		gameObject.tag = "MONSTER";
+		monsterState = MonsterState.idle;
+
+		gameObject.GetComponentInChildren<CapsuleCollider>().enabled = true;
+
+		foreach (Collider coll in gameObject.GetComponentsInChildren<SphereCollider>())
+		{
+			coll.enabled = true;
+		}
+
+		gameObject.SetActive(false);
 	}
 }

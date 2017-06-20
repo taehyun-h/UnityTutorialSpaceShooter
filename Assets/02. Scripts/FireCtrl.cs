@@ -8,12 +8,10 @@ public class FireCtrl : MonoBehaviour
 	public GameObject bullet;
 	public Transform firePos;
 	public AudioClip fireSfx;
-	private AudioSource source = null;
 	public MeshRenderer muzzleFlash;
 
 	void Start()
 	{
-		source = GetComponent<AudioSource>();
 		muzzleFlash.enabled = false;
 	}
 
@@ -29,7 +27,7 @@ public class FireCtrl : MonoBehaviour
 	void Fire()
 	{
 		CreateBullet();
-		source.PlayOneShot(fireSfx, 0.9f);
+		GameMgr.instance.PlaySfx(firePos.position, fireSfx);
 		StartCoroutine(this.ShowMuzzleFlash());
 	}
 

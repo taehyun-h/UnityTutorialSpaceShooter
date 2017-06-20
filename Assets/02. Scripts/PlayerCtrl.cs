@@ -108,5 +108,6 @@ public class PlayerCtrl : MonoBehaviour {
 */
 
 		OnPlayerDie();
+		GameMgr.instance.isGameOver = true;
 	}
 }
